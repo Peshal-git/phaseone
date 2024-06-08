@@ -1,6 +1,9 @@
 const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20')
 const FacebookStrategy = require('passport-facebook')
+const LocalStrategy = require("passport-local")
+const bcrypt = require('bcryptjs')
+
 const keys = require('./keys')
 const User = require('../models/user-model')
 
@@ -25,10 +28,14 @@ passport.use(new GoogleStrategy({
             done(null, currentUser)
 
         } else {
+            console.log(profile.emails[0].value)
             new User({
-                username: profile.displayName,
+                method: "google",
+                name: profile.displayName,
                 googleId: profile.id,
-                thumbnail: profile._json.picture
+                email: profile.emails[0].value,
+                thumbnail: profile._json.picture,
+                isVerified: true
             }).save().then((newUser) => {
                 console.log(`New user created: ${newUser}`)
                 done(null, newUser)
@@ -50,9 +57,12 @@ passport.use(new FacebookStrategy({
 
         } else {
             new User({
-                username: profile.displayName,
+                method: "facebook",
+                name: profile.displayName,
                 facebookId: profile.id,
-                thumbnail: profile.photos[0].value
+                email: profile.emails[0].value,
+                thumbnail: profile.photos[0].value,
+                isVerified: true
             }).save().then((newUser) => {
                 console.log(`New user created: ${newUser}`)
                 done(null, newUser)
@@ -60,3 +70,28 @@ passport.use(new FacebookStrategy({
         }
     })
 }))
+
+passport.use(new LocalStrategy(
+    {
+        usernameField: "username",
+        passwordField: "password"
+    }, (username, password, done) => {
+        User.findOne({ username: username })
+            .then((currentUser) => {
+                const isMatch = bcrypt.compare(currentUser.password, password)
+                if (!isMatch) {
+                    done(null, false, {
+                        message: "Password is not valid."
+                    })
+                }
+                else {
+                    done(null, currentUser)
+                }
+            })
+            .catch((error) => {
+                done(null, false, {
+                    message: "Could not find matching username."
+                })
+
+            })
+    }))

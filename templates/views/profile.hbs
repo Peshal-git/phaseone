@@ -4,8 +4,11 @@
     <h1> Welcome {{user.username}} </h1>
 </header>
 <main class="user-thumbnail">
+    {{#if user.thumbnail}}
     <img src={{removeTrailingSlash user.thumbnail}} alt="User Thumbnail">
+    {{else}}
+    <img src= '/images/default.png' alt="User Thumbnail">
+    {{/if}}
 </main>
-
 </body>
 </html>
