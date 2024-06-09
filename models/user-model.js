@@ -13,8 +13,8 @@ const userSchema = mongoose.Schema({
     password: String,
     method: {
         type: String,
-        enum: ["local", "google", "facebook"],
-        default: 'local',
+        enum: ["Local", "Google", "Facebook"],
+        default: 'Local',
         required: true
     },
     isAdmin: {
@@ -28,7 +28,7 @@ const userSchema = mongoose.Schema({
 })
 
 userSchema.pre("save", async function (next) {
-    if (this.method == 'local') {
+    if (this.method == 'Local') {
         this.password = await bcrypt.hash(this.password, 10)
     }
     next()

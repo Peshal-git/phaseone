@@ -1,1 +1,35 @@
-Hello admin
+{{>adminheader}}
+    <div class="dashboard">
+        <h1>Registered Members</h1>
+        <form action="/admin" method="GET">
+            <input type="text" id="searchInput" name="search">
+            <input type="submit" value="Search">
+        </form>
+        <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Login Method</th>
+                <th>Image</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each user}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{email}}</td>
+                <td>{{method}}</td>
+                {{#if thumbnail}}
+                <td><img src={{removeTrailingSlash thumbnail}} alt="User Profile"></td>{{else}}
+                <td><img src="/images/default.png" alt="User Profile"></td>
+                {{/if}}
+                <td><button class="delete-button">Delete</button></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+    </div>
+</body>
+</html>

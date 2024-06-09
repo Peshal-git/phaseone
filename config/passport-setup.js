@@ -30,7 +30,7 @@ passport.use(new GoogleStrategy({
         } else {
             console.log(profile.emails[0].value)
             new User({
-                method: "google",
+                method: "Google",
                 name: profile.displayName,
                 googleId: profile.id,
                 email: profile.emails[0].value,
@@ -57,7 +57,7 @@ passport.use(new FacebookStrategy({
 
         } else {
             new User({
-                method: "facebook",
+                method: "Facebook",
                 name: profile.displayName,
                 facebookId: profile.id,
                 email: profile.emails[0].value,

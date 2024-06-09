@@ -13,7 +13,7 @@ router.post("/", async (req, res) => {
 
         if (password === cpassword) {
             new User({
-                name: req.body.firstname + req.body.lastname,
+                name: req.body.firstname + " " + req.body.lastname,
                 username: req.body.username,
                 email: req.body.email,
                 password: req.body.password,
