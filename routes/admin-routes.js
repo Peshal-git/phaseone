@@ -28,9 +28,14 @@ router.get('/', adminCheck, async (req, res) => {
 
 router.get('/delete-user', adminCheck, async (req, res) => {
     try {
-        const id = req.query.id
-        await User.findByIdAndDelete({ _id: id })
-        res.redirect('/admin')
+        if (!User.isAdmin) {
+            const id = req.query.id
+            await User.findByIdAndDelete({ _id: id })
+            res.redirect('/admin')
+        }
+        else {
+            res.send("Cannot delete admin")
+        }
     } catch (error) {
         console.log(error)
     }
