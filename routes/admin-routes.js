@@ -26,4 +26,14 @@ router.get('/', adminCheck, async (req, res) => {
     res.render('admindash', { user: userData })
 })
 
+router.get('/delete-user', adminCheck, async (req, res) => {
+    try {
+        const id = req.query.id
+        await User.findByIdAndDelete({ _id: id })
+        res.redirect('/admin')
+    } catch (error) {
+        console.log(error)
+    }
+})
+
 module.exports = router

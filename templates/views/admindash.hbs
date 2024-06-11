@@ -25,7 +25,7 @@
                 <td><img src={{removeTrailingSlash thumbnail}} alt="User Profile"></td>{{else}}
                 <td><img src="/images/default.png" alt="User Profile"></td>
                 {{/if}}
-                <td><button class="delete-button">Delete</button></td>
+                <td><a href="/admin/delete-user/?id={{id}}" class="delete-button">Delete</a></td>
             </tr>
             {{/each}}
         </tbody>

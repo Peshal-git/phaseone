@@ -26,6 +26,7 @@ h1 {
 .delete-button {
     background-color: #ff6347;
     color: white;
+    text-decoration: none;
     border: none;
     padding: 5px 10px;
     border-radius: 3px;
